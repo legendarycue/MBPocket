@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Arizona Mortgage Brokerage Exam Study Guide Web App" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AZ Mortgage Brokerage Exam Study App</title>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Arizona Mortgage Brokerage Exam Study App</h1>
+    <nav>
+      <button class="nav-btn" onclick="showSection('qbank')">QBank</button>
+      <button class="nav-btn" onclick="showSection('study-guide')">Study Guide</button>
+      <button class="nav-btn" onclick="showSection('stats')">Stats / Profile</button>
+      <button class="nav-btn" onclick="showSection('settings')">Settings</button>
+    </nav>
+  </header>
+
+  <!-- QBank Section -->
+  <section id="qbank" class="main-section">
+    <h2>QBank</h2>
+    <p class="total-questions" id="totalQuestionsText"></p>
+
+    <div class="qbank-config">
+      <label for="questionCount">Number of Questions:</label>
+      <input type="number" id="questionCount" value="5" min="1" max="100" />
+
+      <label for="categorySelect">Category:</label>
+      <select id="categorySelect">
+        <option value="all">All Categories</option>
+      </select>
+
+      <label for="showAnswers">Enable Viewing of Correct Answer:</label>
+      <input type="checkbox" id="showAnswers" />
+
+      <label for="showExplanations">Enable Viewing of Explanation:</label>
+      <input type="checkbox" id="showExplanations" />
+
+      <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="quizContainer" class="quiz-container">
+      <!-- Single-question display area -->
+      <div id="singleQuestionView" class="single-question-view" style="display:none;">
+        <h3 id="questionText"></h3>
+        <div id="choicesContainer"></div>
+        <button id="submitAnswerBtn" onclick="submitCurrentAnswer()">Submit Answer</button>
+
+        <p id="answerResult" class="answer-result"></p>
+        <p id="explanationText" class="explanation-text"></p>
+
+        <div class="navigation-buttons">
+          <button id="prevQuestionBtn" onclick="goToPreviousQuestion()">Previous Question</button>
+          <div id="questionNav" class="question-nav"></div> 
+          <button id="nextQuestionBtn" onclick="goToNextQuestion()">Next Question</button>
+        </div>
+
+        <button id="submitExamBtn" onclick="submitExam()" class="submit-exam-btn">Submit Exam</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Study Guide Section -->
+  <section id="study-guide" class="main-section" style="display: none;">
+    <h2>Study Guide</h2>
+    <div id="studyGuideContent"></div>
+  </section>
+
+  <!-- Stats / Profile Section -->
+  <section id="stats" class="main-section" style="display: none;">
+    <h2>Stats / Profile</h2>
+    <div id="statsContent">
+      <p><strong>Questions Attempted:</strong> <span id="questionsAttempted">0</span></p>
+      <p><strong>Correct Answers:</strong> <span id="correctAnswers">0</span></p>
+      <p><strong>Accuracy:</strong> <span id="accuracy">0%</span></p>
+      <p><strong>Weak Areas:</strong> <span id="weakAreas">N/A</span></p>
+    </div>
+
+    <h3>Quiz History</h3>
+    <table id="quizHistoryTable" class="quiz-history-table">
+      <thead>
+        <tr>
+          <th>Date/Time</th>
+          <th>Total Questions</th>
+          <th>Correct Answers</th>
+          <th>Percent Correct</th>
+        </tr>
+      </thead>
+      <tbody id="quizHistoryBody"></tbody>
+    </table>
+
+    <h3>History Chart</h3>
+    <canvas id="historyChart" width="400" height="200" class="chart-canvas"></canvas>
+  </section>
+
+  <!-- Settings Section (Import/Export JSON) -->
+  <section id="settings" class="main-section" style="display: none;">
+    <h2>Settings / Data Management</h2>
+    <div class="data-buttons">
+      <button onclick="exportData()">Export Stats to JSON</button>
+      <button onclick="document.getElementById('importFile').click()">Import Stats from JSON</button>
+      <input 
+        type="file" 
+        id="importFile" 
+        style="display:none" 
+        accept=".json" 
+        onchange="importData(event)" 
+      />
+    </div>
+  </section>
+
+  <!-- 
+    NOTE: We will import questionbank.js within script.js 
+    using "import questionBank from './questionbank.js';" 
+    so there's no direct <script> tag for questionbank.js here.
+  -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
